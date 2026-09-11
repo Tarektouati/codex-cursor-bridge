@@ -1,0 +1,12 @@
+node_modules/
+*.log
+.DS_Store
+.bridge-store/
+
+# Local credentials and environment-specific configuration.
+.env
+.env.*
+!.env.example
+
+# Generated from the current Cursor account; do not publish account-specific availability.
+codex/model-catalog.json
