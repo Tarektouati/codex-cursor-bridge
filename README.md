@@ -1,9 +1,9 @@
 # codex-cursor-bridge
 
-[![npm version](https://img.shields.io/npm/v/@tarektouati/codex-cursor-bridge)](https://www.npmjs.com/package/@tarektouati/codex-cursor-bridge)
-[![npm downloads](https://img.shields.io/npm/dm/@tarektouati/codex-cursor-bridge)](https://www.npmjs.com/package/@tarektouati/codex-cursor-bridge)
+[![npm version](https://img.shields.io/npm/v/@tarektweeti/codex-cursor-bridge)](https://www.npmjs.com/package/@tarektweeti/codex-cursor-bridge)
+[![npm downloads](https://img.shields.io/npm/dm/@tarektweeti/codex-cursor-bridge)](https://www.npmjs.com/package/@tarektweeti/codex-cursor-bridge)
 [![CI](https://github.com/Tarektouati/codex-cursor-bridge/actions/workflows/ci.yml/badge.svg)](https://github.com/Tarektouati/codex-cursor-bridge/actions/workflows/ci.yml)
-[![node](https://img.shields.io/node/v/@tarektouati/codex-cursor-bridge)](package.json)
+[![node](https://img.shields.io/node/v/@tarektweeti/codex-cursor-bridge)](package.json)
 [![license](https://img.shields.io/github/license/Tarektouati/codex-cursor-bridge)](LICENSE)
 [![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/Tarektouati/codex-cursor-bridge/pulls)
 
@@ -59,11 +59,11 @@ No clone needed. Requires Node.js ≥ 22.13.
 export CURSOR_API_KEY="cursor_..."        # your Cursor key, passed to the SDK
 export CURSOR_BRIDGE_KEY="some-secret"     # shared secret Codex presents
 
-npx @tarektouati/codex-cursor-bridge catalog   # once: writes ~/.codex/cursor-bridge-models.json
-npx @tarektouati/codex-cursor-bridge           # starts the bridge on http://127.0.0.1:4712/v1
+npx @tarektweeti/codex-cursor-bridge catalog   # once: writes ~/.codex/cursor-bridge-models.json
+npx @tarektweeti/codex-cursor-bridge           # starts the bridge on http://127.0.0.1:4712/v1
 ```
 
-Prefer a global install? `npm i -g @tarektouati/codex-cursor-bridge` gives you a
+Prefer a global install? `npm i -g @tarektweeti/codex-cursor-bridge` gives you a
 `codex-cursor-bridge` command. Run `codex-cursor-bridge --help` for all options.
 A `.env` file in the current directory is loaded automatically; variables
 already set in your shell take precedence.
@@ -106,7 +106,7 @@ Codex's built-in catalog, so only models listed there appear in Codex — though
 the bridge itself never restricts models and will run any id you set in `model`.
 
 The catalog is account-specific and changes as models ship, so re-run
-`npx @tarektouati/codex-cursor-bridge catalog` instead of editing it by hand. It
+`npx @tarektweeti/codex-cursor-bridge catalog` instead of editing it by hand. It
 writes every concrete model from `Cursor.models.list()`, with `composer-2.5`
 first as the default.
 
