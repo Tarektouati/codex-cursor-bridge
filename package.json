@@ -1,16 +1,44 @@
 {
-  "name": "codex-cursor-bridge",
+  "name": "@tarektouati/codex-cursor-bridge",
   "version": "0.1.0",
-  "private": true,
   "type": "module",
   "description": "Local Responses API proxy that lets OpenAI Codex CLI run on Cursor models",
+  "keywords": [
+    "codex",
+    "cursor",
+    "openai",
+    "responses-api",
+    "proxy",
+    "cli"
+  ],
+  "license": "MIT",
+  "author": "Tarek Touati",
+  "homepage": "https://github.com/Tarektouati/codex-cursor-bridge#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tarektouati/codex-cursor-bridge.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Tarektouati/codex-cursor-bridge/issues"
+  },
   "engines": {
     "node": ">=22.13.0"
   },
   "bin": {
-    "codex-cursor-bridge": "./src/index.ts"
+    "codex-cursor-bridge": "./dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    ".env.example"
+  ],
+  "publishConfig": {
+    "access": "public"
   },
   "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "prepack": "npm run build",
     "start": "node --import tsx src/index.ts",
     "gen:catalog": "node --import tsx scripts/gen-catalog.ts",
     "smoke": "node --import tsx scripts/smoke-sdk.ts",
