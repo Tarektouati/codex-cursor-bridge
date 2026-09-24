@@ -1,5 +1,5 @@
 {
-  "name": "@tarektouati/codex-cursor-bridge",
+  "name": "@tarektweeti/codex-cursor-bridge",
   "version": "0.1.0",
   "type": "module",
   "description": "Local Responses API proxy that lets OpenAI Codex CLI run on Cursor models",
@@ -25,7 +25,7 @@
     "node": ">=22.13.0"
   },
   "bin": {
-    "codex-cursor-bridge": "./dist/index.js"
+    "codex-cursor-bridge": "dist/index.js"
   },
   "files": [
     "dist",
