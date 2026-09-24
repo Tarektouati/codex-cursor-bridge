@@ -72,6 +72,43 @@ already set in your shell take precedence.
 catalog to `$CODEX_HOME` (default `~/.codex`). Use `--out <path>` to write
 it somewhere else.
 
+## CLI usage
+
+| Command | What it does |
+| --- | --- |
+| `npx @tarektweeti/codex-cursor-bridge` | Start the bridge (same as `serve`) |
+| `npx @tarektweeti/codex-cursor-bridge serve` | Start the bridge on `http://127.0.0.1:4712/v1` |
+| `npx @tarektweeti/codex-cursor-bridge catalog` | Write the Codex model catalog to `$CODEX_HOME/cursor-bridge-models.json` |
+| `npx @tarektweeti/codex-cursor-bridge catalog --out <path>` | Write the catalog to a custom path |
+| `npx @tarektweeti/codex-cursor-bridge --version` (`-v`) | Print the installed version |
+| `npx @tarektweeti/codex-cursor-bridge --help` (`-h`) | Show commands, options, and environment variables |
+
+Examples:
+
+```sh
+# Start the server
+npx @tarektweeti/codex-cursor-bridge
+
+# Start on a different port with debug logs
+BRIDGE_PORT=5000 BRIDGE_LOG_LEVEL=debug npx @tarektweeti/codex-cursor-bridge serve
+
+# Generate (or refresh) the model catalog
+npx @tarektweeti/codex-cursor-bridge catalog
+npx @tarektweeti/codex-cursor-bridge catalog --out ./models.json
+
+# Check which version you're running
+npx @tarektweeti/codex-cursor-bridge --version
+
+# Always run the newest release (bypasses npx's cached copy)
+npx @tarektweeti/codex-cursor-bridge@latest
+```
+
+With a global install (`npm i -g @tarektweeti/codex-cursor-bridge`), drop the
+`npx @tarektweeti/` prefix: `codex-cursor-bridge serve`, `codex-cursor-bridge catalog`,
+`codex-cursor-bridge --version`.
+
+Stop the server with `Ctrl+C`. It shuts down cleanly on `SIGINT` or `SIGTERM`.
+
 ## Point Codex at the bridge
 
 Save this as `~/.codex/cursor-bridge.config.toml`:
