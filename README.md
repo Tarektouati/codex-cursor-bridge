@@ -1,5 +1,12 @@
 # codex-cursor-bridge
 
+[![npm version](https://img.shields.io/npm/v/@tarektouati/codex-cursor-bridge)](https://www.npmjs.com/package/@tarektouati/codex-cursor-bridge)
+[![npm downloads](https://img.shields.io/npm/dm/@tarektouati/codex-cursor-bridge)](https://www.npmjs.com/package/@tarektouati/codex-cursor-bridge)
+[![CI](https://github.com/Tarektouati/codex-cursor-bridge/actions/workflows/ci.yml/badge.svg)](https://github.com/Tarektouati/codex-cursor-bridge/actions/workflows/ci.yml)
+[![node](https://img.shields.io/node/v/@tarektouati/codex-cursor-bridge)](package.json)
+[![license](https://img.shields.io/github/license/Tarektouati/codex-cursor-bridge)](LICENSE)
+[![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/Tarektouati/codex-cursor-bridge/pulls)
+
 A local proxy that lets the [OpenAI Codex CLI](https://github.com/openai/codex)
 run on your Cursor subscription's models instead of OpenAI's. It implements the
 OpenAI **Responses API** (`POST /v1/responses`) that Codex speaks, and backs it
@@ -40,32 +47,39 @@ This means Codex's sandbox, approval policy, and TUI all keep working normally.
 
 ## Requirements
 
-- Node.js 22.13 or newer (`@cursor/sdk` requirement)
+- **Node.js ≥ 22.13** (required by `@cursor/sdk`; CI tests Node 22 and 24)
 - Codex CLI (developed against `codex-cli 0.140.0`)
 - A Cursor API key: [cursor.com/dashboard/integrations](https://cursor.com/dashboard/integrations)
 
-## Setup
+## Quick start
+
+No clone needed. Requires Node.js ≥ 22.13.
 
 ```sh
-npm install
 export CURSOR_API_KEY="cursor_..."        # your Cursor key, passed to the SDK
 export CURSOR_BRIDGE_KEY="some-secret"     # shared secret Codex presents
-npm run gen:catalog                         # generate your local model catalog
-npm start
+
+npx @tarektouati/codex-cursor-bridge catalog   # once: writes ~/.codex/cursor-bridge-models.json
+npx @tarektouati/codex-cursor-bridge           # starts the bridge on http://127.0.0.1:4712/v1
 ```
 
-`npm run gen:catalog` queries your Cursor account and writes the local,
-account-specific `codex/model-catalog.json`; it is intentionally not committed.
+Prefer a global install? `npm i -g @tarektouati/codex-cursor-bridge` gives you a
+`codex-cursor-bridge` command. Run `codex-cursor-bridge --help` for all options.
+A `.env` file in the current directory is loaded automatically; variables
+already set in your shell take precedence.
 
-The bridge listens on `http://127.0.0.1:4712/v1` by default.
+`catalog` queries your Cursor account and writes an account-specific model
+catalog to `$CODEX_HOME` (default `~/.codex`). Use `--out <path>` to write
+it somewhere else.
 
-Point Codex at it with the bundled profile
-(`codex/` here is copied to `~/.codex/cursor-bridge.config.toml`):
+## Point Codex at the bridge
+
+Save this as `~/.codex/cursor-bridge.config.toml`:
 
 ```toml
 model = "composer-2.5"
 model_provider = "cursor-bridge"
-model_catalog_json = "/absolute/path/to/codex-cursor-bridge/codex/model-catalog.json"
+model_catalog_json = "/Users/you/.codex/cursor-bridge-models.json"  # path printed by `catalog`
 
 [model_providers.cursor-bridge]
 name = "Cursor Bridge"
@@ -91,15 +105,9 @@ warning and gives Codex's picker the list of models to show. It **replaces**
 Codex's built-in catalog, so only models listed there appear in Codex — though
 the bridge itself never restricts models and will run any id you set in `model`.
 
-Regenerate the catalog from your live Cursor account (it's account-specific and
-changes as models ship) instead of editing it by hand:
-
-```sh
-CURSOR_API_KEY=... npm run gen:catalog
-```
-
-This writes every concrete model from `Cursor.models.list()` into
-[`codex/model-catalog.json`](codex/model-catalog.json), keeping `composer-2.5`
+The catalog is account-specific and changes as models ship, so re-run
+`npx @tarektouati/codex-cursor-bridge catalog` instead of editing it by hand. It
+writes every concrete model from `Cursor.models.list()`, with `composer-2.5`
 first as the default.
 
 ## Configuration
@@ -123,11 +131,21 @@ All configuration is via environment variables:
 
 ## Development
 
+Running from a clone:
+
 ```sh
+git clone https://github.com/Tarektouati/codex-cursor-bridge.git
+cd codex-cursor-bridge
+npm install
+npm start             # runs src/ directly through tsx
+```
+
+```sh
+npm run build         # compile to dist/ (what gets published)
 npm run typecheck     # tsc --noEmit
 npm test              # offline unit + HTTP contract tests (no network)
 npm run smoke         # live SDK probe (needs CURSOR_API_KEY)
-npm run gen:catalog   # regenerate codex/model-catalog.json from your account
+npm run gen:catalog   # write codex/model-catalog.json (gitignored) from your account
 ```
 
 - [`test/unit/`](test/unit) covers request translation, tool mapping, and the
